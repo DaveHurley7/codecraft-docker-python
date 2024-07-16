@@ -14,8 +14,8 @@ def main():
     completed_process = subprocess.run([command, *args], capture_output=True)
     #sys.stdout.write()
     #sys.stderr.write(completed_process.stderr.decode("utf-8"))
-    print(completed_process.stdout.decode("utf-8"))
-    print(completed_process.stderr.decode("utf-8"),file=sys.stderr)
+    print(completed_process.stdout.decode("utf-8"),end="")
+    print(completed_process.stderr.decode("utf-8"),end="",file=sys.stderr)
     if args[0] == "exit":
         quit(completed_process.returncode)
 
