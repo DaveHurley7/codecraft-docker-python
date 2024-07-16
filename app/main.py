@@ -13,10 +13,11 @@ def main():
     args = sys.argv[4:]
     #
     tmpdir = "_tempdir"
-    os.mkdir(tmpdir)
+    if not os.path.isdir(tmpdir):
+        os.mkdir(tmpdir)
     shutil.copy(command,tmpdir)
     os.chroot(tmpdir)
-    command = "/"+os.path.basename(command)
+    #command = "/"+os.path.basename(command)
     completed_process = subprocess.run([command, *args], capture_output=True)
     #sys.stdout.write()
     #sys.stderr.write(completed_process.stderr.decode("utf-8"))
