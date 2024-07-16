@@ -17,7 +17,7 @@ def main():
         os.mkdir(tmpdir)
     shutil.copy(command,tmpdir)
     os.chroot(tmpdir)
-    os.unshare(CLONE_NEWPID)
+    os.unshare(os.CLONE_NEWPID)
     command = "/"+os.path.basename(command)
     completed_process = subprocess.run([command, *args], capture_output=True)
     #sys.stdout.write()
