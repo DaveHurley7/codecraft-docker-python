@@ -16,6 +16,7 @@ def main():
     #sys.stderr.write(completed_process.stderr.decode("utf-8"))
     print(completed_process.stdout.decode("utf-8"))
     print(completed_process.stderr.decode("utf-8"),file=sys.stderr)
+    print(command,*args)
     if command == "exit":
         quit(completed_process.stdout.decode("utf-8"))
 
