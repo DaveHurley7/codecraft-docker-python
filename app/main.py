@@ -17,7 +17,7 @@ def main():
     print(completed_process.stdout.decode("utf-8"))
     print(completed_process.stderr.decode("utf-8"),file=sys.stderr)
     if args[0] == "exit":
-        quit(completed_process.stdout.decode("utf-8"))
+        quit(completed_process.returncode)
 
 
 if __name__ == "__main__":
