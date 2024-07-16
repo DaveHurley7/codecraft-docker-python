@@ -1,6 +1,6 @@
 import subprocess
 import sys
-
+import os
 
 def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -11,13 +11,17 @@ def main():
     command = sys.argv[3]
     args = sys.argv[4:]
     #
+    rtdir = args[-1]
+    os.mkdir(rtdir)
+    os.chdir(rtdir)
+    os.chroot()
+    os.chdir("..")
     completed_process = subprocess.run([command, *args], capture_output=True)
     #sys.stdout.write()
     #sys.stderr.write(completed_process.stderr.decode("utf-8"))
     print(completed_process.stdout.decode("utf-8"),end="")
     print(completed_process.stderr.decode("utf-8"),end="",file=sys.stderr)
-    if args[0] == "exit":
-        quit(completed_process.returncode)
+    quit(completed_process.returncode)
 
 
 if __name__ == "__main__":
