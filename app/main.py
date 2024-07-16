@@ -12,7 +12,6 @@ def main():
     args = sys.argv[4:]
     #
     rtdir = args[-1]
-    os.mkdir(rtdir)
     os.chdir(rtdir)
     os.chroot()
     os.chdir("..")
