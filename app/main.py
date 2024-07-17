@@ -4,6 +4,7 @@ import os
 import shutil
 import ssl, socket as skt
 import json
+import encodinds.idna
 
 sslctx = ssl.create_default_context()
 def initsocktohost(host,port):
