@@ -6,10 +6,10 @@ import ssl, socket as skt
 import json
 
 sslctx = ssl.create_default_context()
-def initsocktohost(conn):
+def initsocktohost(host,port):
     sk = skt.socket(skt.AF_INET,skt.SOCK_STREAM)
-    s_sk = sslctx.wrap_socket(sk)
-    s_sk.connect(conn)
+    s_sk = sslctx.wrap_socket(sk,server_hostname=host)
+    s_sk.connect((host,port))
     
 def recv_token(sk):
     resp = sk.recv(1024).decode()
@@ -24,7 +24,7 @@ def recv_token(sk):
     return json_res["token"]
     
 def get_docker_auth_token(image,tag):
-    dauth_sk = initsocktohost(("auth.docker.io",443))
+    dauth_sk = initsocktohost("auth.docker.io",443)
     dauth_sk.send(("GET /token?service=registry.docker.io&scope=repository:library/"+image_name+":pull").encode())
     resp = dauth_sk.recv(1024)
     print(resp)
