@@ -5,7 +5,7 @@ import shutil
 import ssl, socket as skt
 import json
 
-sslctx = ssl.getdefaultcontext()
+sslctx = ssl.create_default_context()
 def initsocktohost(conn):
     sk = skt.socket(skt.AF_INET,skt.SOCK_STREAM)
     s_sk = sslctx.wrap_socket(sk)
