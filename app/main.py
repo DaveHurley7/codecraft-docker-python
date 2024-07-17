@@ -64,7 +64,7 @@ def main():
     os.chroot(tmpdir)
     os.unshare(os.CLONE_NEWPID)
     command = "/"+os.path.basename(command)
-    load_image(image_name):
+    load_image(image_name)
     completed_process = subprocess.run([command, *args], capture_output=True)
     #sys.stdout.write()
     #sys.stderr.write(completed_process.stderr.decode("utf-8"))
