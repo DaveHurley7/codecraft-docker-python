@@ -3,15 +3,49 @@ import sys
 import os
 import shutil
 import ssl, socket as skt
+import json
+
+sslctx = ssl.getdefaultcontext()
+def initsocktohost(conn):
+    sk = skt.socket(skt.AF_INET,skt.SOCK_STREAM)
+    s_sk = sslctx.wrap_socket(sk)
+    s_sk.connect(conn)
+    
+def recv_token(sk):
+    resp = sk.recv(1024).decode()
+    req_h, body = resp.split("\r\n\r\n")
+    json_res = None
+    while True:
+        try:
+            json_res = json.loads(body)
+            break
+        except json.decoder.JSONDecodeError:
+            body += sk.recv(1024).decode()
+    return json_res["token"]
+    
+def get_docker_auth_token(image,tag):
+    dauth_sk = initsocktohost(("auth.docker.io",443))
+    dauth_sk.send(("GET /token?service=registry.docker.io&scope=repository:library/"+image_name+":pull").encode())
+    resp = dauth_sk.recv(1024)
+    print(resp)
 
 def load_image(image_name):
-    sk = skt.socket(skt.AF_INET,skt.SOCK_STREAM)
-    sslctx = ssl.getdefaultcontext()
-    s_sk = sslctx.wrap_socket(sk)
-    s_sk.connect(("registry.hub.docker.com",443))
-    s_sk.send("GET /v2/ HTTP/1.1".encode())
-    resp = s_sk.recv(1024)
-    print(resp)
+    tag = None
+    if ":" in image_name:
+        tag_sep = image_name.index(":")
+        tag = image_name[tag_sep+1:]
+        image_name = image_name[:tag_sep]
+        del tag_sep
+    auth_token = get_docker_auth_token(image_name,tag)
+    #dreg_sk = initsocktohost(("registry.hub.docker.com",443))
+    #dreg.send("GET /v2/ HTTP/1.1".encode())
+    #change_host(s_sk,)
+    #s_sk
+    #auth_token = recv_token(s_sk)
+    #change_host(s_sk,("registry.hub.docker.com",443))
+    #s_sk.send(("GET /v2/library/" + image_name + "/manifests/" + (tag if tag else "latest") + " HTTP/1.1\r\nAuthorization: Bearer " + auth_token).encode())
+    #resp = s_sk.recv(1024)
+    #print(resp)  
 
 def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -26,7 +60,7 @@ def main():
     tmpdir = "_tempdir"
     if not os.path.isdir(tmpdir):
         os.mkdir(tmpdir)
-    shutil.copy(command,tmpdir)
+        shutil.copy(command,tmpdir)
     os.chroot(tmpdir)
     os.unshare(os.CLONE_NEWPID)
     command = "/"+os.path.basename(command)
