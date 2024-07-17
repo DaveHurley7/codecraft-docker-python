@@ -8,6 +8,7 @@ import encodings.idna
 
 sslctx = ssl.create_default_context()
 def initsocktohost(host,port):
+    print("Attempting to connect:",host,port)
     sk = skt.socket(skt.AF_INET,skt.SOCK_STREAM)
     s_sk = sslctx.wrap_socket(sk,server_hostname=host)
     s_sk.connect((host,port))
