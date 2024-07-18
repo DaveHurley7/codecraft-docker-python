@@ -4,6 +4,7 @@ import os
 import shutil
 from urllib.request import Request as ulreq, urlopen
 import json
+import encodings.idna
 
 #sslctx = ssl.create_default_context()
 def initsocktohost(host,port):
