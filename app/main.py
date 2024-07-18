@@ -2,8 +2,7 @@ import subprocess
 import sys
 import os
 import shutil
-import urllib.Request as ulreq
-import urllib.open as ulopen
+from urllib.request import Request as ulreq, urlopen
 import json
 
 sslctx = ssl.create_default_context()
@@ -27,7 +26,7 @@ def recv_token(sk):
     
 def get_docker_auth_token(image,tag):
     dauth_req = ulreq("auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
-    dauthf = ulopen(dauthreq)
+    dauthf = urlopen(dauthreq)
     auth_body = dauthf.read()
     print(auth_body)
     #dauth_sk = initsocktohost(,443)
