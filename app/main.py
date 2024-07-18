@@ -5,7 +5,7 @@ import shutil
 from urllib.request import Request as ulreq, urlopen
 import json
 
-sslctx = ssl.create_default_context()
+#sslctx = ssl.create_default_context()
 def initsocktohost(host,port):
     print("Attempting to connect:",host,port)
     sk = skt.socket(skt.AF_INET,skt.SOCK_STREAM)
