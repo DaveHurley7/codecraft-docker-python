@@ -25,7 +25,7 @@ def recv_token(sk):
     return json_res["token"]
     
 def get_docker_auth_token(image,tag):
-    dauth_req = ulreq("auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
+    dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
     dauthf = urlopen(dauthreq)
     auth_body = dauthf.read()
     print(auth_body)
