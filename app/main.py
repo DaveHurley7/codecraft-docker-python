@@ -2,9 +2,9 @@ import subprocess
 import sys
 import os
 import shutil
-import ssl, socket as skt
+import urllib.Request as ulreq
+import urllib.open as ulopen
 import json
-import encodings.idna
 
 sslctx = ssl.create_default_context()
 def initsocktohost(host,port):
@@ -26,10 +26,14 @@ def recv_token(sk):
     return json_res["token"]
     
 def get_docker_auth_token(image,tag):
-    dauth_sk = initsocktohost("auth.docker.io",443)
-    dauth_sk.send(("GET /token?service=registry.docker.io&scope=repository:library/"+image_name+":pull").encode())
-    resp = dauth_sk.recv(1024)
-    print(resp)
+    dauth_req = ulreq("auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
+    dauthf = ulopen(dauthreq)
+    auth_body = dauthf.read()
+    print(auth_body)
+    #dauth_sk = initsocktohost(,443)
+    #dauth_sk.send(("GET ").encode())
+    #resp = dauth_sk.recv(1024)
+    #print(resp)
 
 def load_image(image_name):
     tag = None
