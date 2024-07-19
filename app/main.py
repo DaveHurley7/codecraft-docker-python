@@ -2,7 +2,8 @@ import subprocess
 import sys
 import os
 import shutil
-from urllib.request import Request as ulreq, urlopen
+#from urllib.request import Request as ulreq, urlopen
+import http.client as hc
 import json
 #import encodings.idna
 
@@ -26,16 +27,20 @@ def recv_token(sk):
     return json_res["token"]
     
 def get_docker_auth_token(image,tag):
-    dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
-    print("URL:",dauth_req.full_url.encode())
-    dauthf = urlopen(dauth_req)
-    auth_body = dauthf.read()
-    dauthf.close()
-    print(auth_body)
+    #dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
+    #print("URL:",dauth_req.full_url.encode())
+    #dauthf = urlopen(dauth_req)
+    #auth_body = dauthf.read()
+    #dauthf.close()
+    #print(auth_body)
     #dauth_sk = initsocktohost(,443)
     #dauth_sk.send(("GET ").encode())
     #resp = dauth_sk.recv(1024)
     #print(resp)
+    conn = hc.HTTPSConnection("auth.docker.io")
+    conn.request("GET","/token?service=registry.docker.io&scope=repository:library/alpine:pull")
+    resp = conn.get_response()
+    print(resp)
 
 def load_image(image_name):
     tag = None
