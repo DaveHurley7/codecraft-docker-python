@@ -2,7 +2,7 @@ import subprocess
 import sys
 import os
 from urllib.request import Request as ulreq, urlopen
-import socket, ssl
+import socket as skt, ssl
 import http.client as hc
 import json
 
