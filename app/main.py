@@ -37,7 +37,7 @@ def get_docker_auth_token(image,tag):
     #print(auth_body)
     dauth_sk = initsocktohost("auth.docker.io",443)
     print("Trying to send")
-    dauth_sk.send(("GET /token?service=registry.docker.io&scope=repository:library/"+image+":pull").encode())
+    dauth_sk.send(("GET /token?service=registry.docker.io&scope=repository:library/"+image+":pull HTTP/1.1").encode())
     print("Message sent")
     resp = dauth_sk.recv(1024)
     print(resp)
