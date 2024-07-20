@@ -12,6 +12,7 @@ def initsocktohost(host,port):
     sk = skt.socket(skt.AF_INET,skt.SOCK_STREAM)
     s_sk = sslctx.wrap_socket(sk,server_hostname=host)
     s_sk.connect((host,port))
+    print("Connected")
     return s_sk
     
 def recv_token(sk):
@@ -35,7 +36,9 @@ def get_docker_auth_token(image,tag):
     #dauthf.close()
     #print(auth_body)
     dauth_sk = initsocktohost("auth.docker.io",443)
+    print("Trying to send")
     dauth_sk.send(("GET /token?service=registry.docker.io&scope=repository:library/"+image+":pull").encode())
+    print("Message sent")
     resp = dauth_sk.recv(8096)
     print(resp)
     #conn = hc.HTTPSConnection("auth.docker.io".encode("idna"))
