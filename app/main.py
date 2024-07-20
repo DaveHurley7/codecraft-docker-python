@@ -39,7 +39,7 @@ def get_docker_auth_token(image,tag):
     print("Trying to send")
     dauth_sk.send(("GET /token?service=registry.docker.io&scope=repository:library/"+image+":pull").encode())
     print("Message sent")
-    resp = dauth_sk.recv(8096)
+    resp = dauth_sk.recv(1024)
     print(resp)
     #conn = hc.HTTPSConnection("auth.docker.io".encode("idna"))
     #conn.request("GET","/token?#service=registry.docker.io&scope=repository:library/alpine:pull")
