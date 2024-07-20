@@ -12,6 +12,7 @@ def initsocktohost(host,port):
     sk = skt.socket(skt.AF_INET,skt.SOCK_STREAM)
     s_sk = sslctx.wrap_socket(sk,server_hostname=host)
     s_sk.connect((host,port))
+    return s_sk
     
 def recv_token(sk):
     resp = sk.recv(1024).decode()
