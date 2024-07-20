@@ -32,7 +32,8 @@ def get_docker_auth_token(image,tag):
     dauthf = urlopen(dauth_req)
     auth_body = dauthf.read()
     dauthf.close()
-    print(auth_body)
+    auth_resp = json.loads(auth_body)
+    print(auth_resp["token"])
 
 def load_image(image_name):
     tag = None
@@ -69,6 +70,7 @@ def main():
     os.chroot(tmpdir)
     os.unshare(os.CLONE_NEWPID)
     command = "/"+os.path.basename(command)
+    print(command, args)
     completed_process = subprocess.run([command, *args], capture_output=True)
     #sys.stdout.write()
     #sys.stderr.write(completed_process.stderr.decode("utf-8"))
