@@ -28,6 +28,8 @@ def recv_token(sk):
     
 def get_docker_auth_token(image,tag):
     #dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
+    gai_info = socket.getaddrinfo("https://google.ie",443)
+    print("GAI",gai_info)
     dauth_req = ulreq("https://google.ie")
     print("URL:",dauth_req.full_url.encode())
     dauthf = urlopen(dauth_req)
