@@ -72,13 +72,13 @@ def main():
     command = sys.argv[3]
     args = sys.argv[4:]
     #
+    load_image(image_name)
     tmpdir = "_tempdir"
     if not os.path.isdir(tmpdir):
         os.mkdir(tmpdir)
     os.chroot(tmpdir)
     os.unshare(os.CLONE_NEWPID)
     command = "/"+os.path.basename(command)
-    load_image(image_name)
     completed_process = subprocess.run([command, *args], capture_output=True)
     #sys.stdout.write()
     #sys.stderr.write(completed_process.stderr.decode("utf-8"))
