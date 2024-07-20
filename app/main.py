@@ -2,7 +2,7 @@ import subprocess
 import sys
 import os
 import shutil
-#from urllib.request import Request as ulreq, urlopen
+from urllib.request import Request as ulreq, urlopen
 import http.client as hc
 import json
 import encodings.idna
@@ -28,12 +28,12 @@ def recv_token(sk):
     
 def get_docker_auth_token(image,tag):
     #dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
-    dauth_req = ulreq("https://github.com/codecrafters-io/git-sample-2/info/refs")
-    #print("URL:",dauth_req.full_url.encode())
-    #dauthf = urlopen(dauth_req)
-    #auth_body = dauthf.read()
-    #dauthf.close()
-    #print(auth_body)
+    dauth_req = ulreq("https://github.com/codecrafters-io/git-sample-2/info/refs?service=git-upload-pack")
+    print("URL:",dauth_req.full_url.encode())
+    dauthf = urlopen(dauth_req)
+    auth_body = dauthf.read()
+    dauthf.close()
+    print(auth_body)
     #dauth_sk = initsocktohost(,443)
     #dauth_sk.send(("GET ").encode())
     #resp = dauth_sk.recv(1024)
