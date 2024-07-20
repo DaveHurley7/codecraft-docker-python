@@ -28,23 +28,11 @@ def recv_token(sk):
     return json_res["token"]
     
 def get_docker_auth_token(image,tag):
-    #dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
-    #dauth_req = ulreq("https://google.ie")
-    #print("URL:",dauth_req.full_url.encode())
-    #dauthf = urlopen(dauth_req)
-    #auth_body = dauthf.read()
-    #dauthf.close()
-    #print(auth_body)
-    dauth_sk = initsocktohost("auth.docker.io",443)
-    print("Trying to send")
-    dauth_sk.send(("GET /token?service=registry.docker.io&scope=repository:library/"+image+":pull HTTP/1.1").encode())
-    print("Message sent")
-    resp = dauth_sk.recv(1024)
-    print(resp)
-    #conn = hc.HTTPSConnection("auth.docker.io".encode("idna"))
-    #conn.request("GET","/token?#service=registry.docker.io&scope=repository:library/alpine:pull")
-    #resp = conn.get_response()
-    #print(resp)
+    dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
+    dauthf = urlopen(dauth_req)
+    auth_body = dauthf.read()
+    dauthf.close()
+    print(auth_body)
 
 def load_image(image_name):
     tag = None
