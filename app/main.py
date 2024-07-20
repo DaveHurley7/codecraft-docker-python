@@ -6,7 +6,7 @@ import socket
 import http.client as hc
 import json
 
-#sslctx = ssl.create_default_context()
+sslctx = ssl.create_default_context()
 def initsocktohost(host,port):
     print("Attempting to connect:",host,port)
     sk = skt.socket(skt.AF_INET,skt.SOCK_STREAM)
@@ -26,17 +26,17 @@ def recv_token(sk):
     return json_res["token"]
     
 def get_docker_auth_token(image,tag):
-    dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
+    #dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
     #dauth_req = ulreq("https://google.ie")
-    print("URL:",dauth_req.full_url.encode())
-    dauthf = urlopen(dauth_req)
-    auth_body = dauthf.read()
-    dauthf.close()
-    print(auth_body)
-    #dauth_sk = initsocktohost(,443)
-    #dauth_sk.send(("GET ").encode())
-    #resp = dauth_sk.recv(1024)
-    #print(resp)
+    #print("URL:",dauth_req.full_url.encode())
+    #dauthf = urlopen(dauth_req)
+    #auth_body = dauthf.read()
+    #dauthf.close()
+    #print(auth_body)
+    dauth_sk = initsocktohost("auth.docker.io",443)
+    dauth_sk.send(("GET /token?service=registry.docker.io&scope=repository:library/"+image+":pull").encode())
+    resp = dauth_sk.recv(8096)
+    print(resp)
     #conn = hc.HTTPSConnection("auth.docker.io".encode("idna"))
     #conn.request("GET","/token?#service=registry.docker.io&scope=repository:library/alpine:pull")
     #resp = conn.get_response()
