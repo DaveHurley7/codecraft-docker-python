@@ -1,7 +1,6 @@
 import subprocess
 import sys
 import os
-import shutil
 from urllib.request import Request as ulreq, urlopen
 import socket
 import http.client as hc
@@ -76,7 +75,6 @@ def main():
     tmpdir = "_tempdir"
     if not os.path.isdir(tmpdir):
         os.mkdir(tmpdir)
-        shutil.copy(command,tmpdir)
     os.chroot(tmpdir)
     os.unshare(os.CLONE_NEWPID)
     command = "/"+os.path.basename(command)
