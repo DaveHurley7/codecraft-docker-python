@@ -43,6 +43,11 @@ def load_image(image_name):
         image_name = image_name[:tag_sep]
         del tag_sep
     auth_token = get_docker_auth_token(image_name,tag)
+    dreg_req = ulreq("https://registry.docker.io/v2/library/"+image+"/manifests/"+tag)
+    dregf = urlopen(dreg_req)
+    dreg_resp = dregf.read()
+    print(dreg_resp)
+    dregf.close()
     #dreg_sk = initsocktohost(("registry.hub.docker.com",443))
     #dreg.send("GET /v2/ HTTP/1.1".encode())
     #change_host(s_sk,)
