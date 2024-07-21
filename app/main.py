@@ -73,7 +73,7 @@ def main():
     image_name = sys.argv[2]
     command = sys.argv[3]
     args = sys.argv[4:]
-    print("ALL ARGS:",command, args)
+    print("ALL ARGS:",image_name,command, args)
     load_image(image_name)
     tmpdir = "_tempdir"
     if not os.path.isdir(tmpdir):
