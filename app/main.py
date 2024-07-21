@@ -45,12 +45,12 @@ def load_image(image_name):
     auth_token = get_docker_auth_token(image_name,tag)
     dreg_req = ulreq("https://registry.hub.docker.com/v2/library/"+image_name+"/manifests/"+tag,
                     headers = {
-                        "Content-Type": "application/vnd.docker.distribution.manifest.v2+json",
+                        "Accept": "application/vnd.docker.distribution.manifest.v2+json",
                         "Authorization": "Bearer " + auth_token
                     })
     dregf = urlopen(dreg_req)
     dreg_resp = dregf.read().decode()
-    json.dumps(dreg_resp,indent=4)
+    print(json.dumps(dreg_resp,indent=4))
     dregf.close()
     #dreg_sk = initsocktohost(("registry.hub.docker.com",443))
     #dreg.send("GET /v2/ HTTP/1.1".encode())
