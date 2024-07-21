@@ -62,7 +62,7 @@ def load_image(image_name):
         dbinf = urlopen(dbin_req)
         imgrawf.write(dbinf.read())
         imgrawf.close()
-    print(os.list_dirs())
+    print(os.listdir())
 
 def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
