@@ -53,7 +53,7 @@ def load_image(image_name):
     dreg_body = json.loads(dreg_resp)
     dregf.close()
     layers = dreg_body["layers"]
-    for layer in layer:
+    for layer in layers:
         imgrawf = open(image_name,"wb")
         dbin_req = ulreq("https://registry.hub.docker.com/v2/library/" + image_name + "/blobs/" + layer["digest"],
                         headers = {
