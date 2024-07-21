@@ -36,8 +36,9 @@ def get_docker_auth_token(image,tag):
     print(auth_resp["token"])
 
 def load_image(image_name):
-    tag = None
+    tag = "latest"
     if ":" in image_name:
+        print("IMAGE WITH TAG",image_name)
         tag_sep = image_name.index(":")
         tag = image_name[tag_sep+1:]
         image_name = image_name[:tag_sep]
