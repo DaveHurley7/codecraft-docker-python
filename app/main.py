@@ -36,10 +36,8 @@ def get_docker_auth_token(image,tag):
     return auth_resp["token"]
 
 def load_image(image_name):
-    print("IMAGE:",image_name)
     tag = "latest"
     if ":" in image_name:
-        print("IMAGE WITH TAG",image_name)
         tag_sep = image_name.index(":")
         tag = image_name[tag_sep+1:]
         image_name = image_name[:tag_sep]
@@ -73,7 +71,6 @@ def main():
     image_name = sys.argv[2]
     command = sys.argv[3]
     args = sys.argv[4:]
-    print("ALL ARGS:",image_name,command, args)
     load_image(image_name)
     tmpdir = "_tempdir"
     if not os.path.isdir(tmpdir):
