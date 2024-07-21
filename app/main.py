@@ -43,7 +43,7 @@ def load_image(image_name):
         image_name = image_name[:tag_sep]
         del tag_sep
     auth_token = get_docker_auth_token(image_name,tag)
-    dreg_req = ulreq("https://registry.hub.docker.com/v2/library/"+image_name+"/manifests/"+tag,
+    dreg_req = ulreq("https://registry.hub.docker.com/v2/library/" + image_name + "/manifests/" + tag,
                     headers = {
                         "Accept": "application/vnd.docker.distribution.manifest.v2+json",
                         "Authorization": "Bearer " + auth_token
@@ -51,17 +51,18 @@ def load_image(image_name):
     dregf = urlopen(dreg_req)
     dreg_resp = dregf.read().decode()
     dreg_body = json.loads(dreg_resp)
-    print(json.dumps(dreg_body,indent=4))
     dregf.close()
-    #dreg_sk = initsocktohost(("registry.hub.docker.com",443))
-    #dreg.send("GET /v2/ HTTP/1.1".encode())
-    #change_host(s_sk,)
-    #s_sk
-    #auth_token = recv_token(s_sk)
-    #change_host(s_sk,("registry.hub.docker.com",443))
-    #s_sk.send(("GET /v2/library/" + image_name + "/manifests/" + (tag if tag else "latest") + " HTTP/1.1\r\nAuthorization: Bearer " + auth_token).encode())
-    #resp = s_sk.recv(1024)
-    #print(resp)  
+    layers = dreg_body["layers"]
+    for layer in layer:
+        imgrawf = open(image_name,"wb")
+        dbin_req = ulreq("https://registry.hub.docker.com/v2/library/" + image_name + "/blobs/" + layer["digest"],
+                        headers = {
+                            "Authorization": "Bearer " + auth_token
+                        })
+        dbinf = urlopen(dbin_req)
+        imgrawf.write(dbinf.read())
+        imgrawf.close()
+    print(os.list_dirs())
 
 def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
