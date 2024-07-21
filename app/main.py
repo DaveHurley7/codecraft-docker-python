@@ -50,6 +50,7 @@ def load_image(image_name):
                     })
     dregf = urlopen(dreg_req)
     dreg_resp = dregf.read()
+    print("JSON_RESP",type(dreg_resp))
     print(json.dumps(dreg_resp,indent=4))
     dregf.close()
     #dreg_sk = initsocktohost(("registry.hub.docker.com",443))
