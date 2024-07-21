@@ -58,7 +58,7 @@ def main():
     imgtar = tarfile.open(image_name,"r:gz")
     imgtar.extractall(tmpdir,filter="tar")
     os.chroot(tmpdir)
-    print(os.listdir())
+    print(os.listdir(tmpdir))
     os.unshare(os.CLONE_NEWPID)
     command = "/"+os.path.basename(command)
     completed_process = subprocess.run([command, *args], capture_output=True)
