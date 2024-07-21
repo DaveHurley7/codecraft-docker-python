@@ -33,9 +33,10 @@ def get_docker_auth_token(image,tag):
     auth_body = dauthf.read()
     dauthf.close()
     auth_resp = json.loads(auth_body)
-    print(auth_resp["token"])
+    reutrn auth_resp["token"]
 
 def load_image(image_name):
+    print("IMAGE:",image_name)
     tag = "latest"
     if ":" in image_name:
         print("IMAGE WITH TAG",image_name)
