@@ -56,7 +56,7 @@ def main():
     if not os.path.isdir(tmpdir):
         os.mkdir(tmpdir)
     imgtar = tarfile.open(image_name,"r:gz")
-    imgtar.extractall(tmpdir)
+    imgtar.extractall(tmpdir,filter="tar")
     os.chroot(tmpdir)
     os.unshare(os.CLONE_NEWPID)
     command = "/"+os.path.basename(command)
