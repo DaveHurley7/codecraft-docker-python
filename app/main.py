@@ -43,9 +43,9 @@ def load_image(image_name):
         image_name = image_name[:tag_sep]
         del tag_sep
     auth_token = get_docker_auth_token(image_name,tag)
-    dreg_req = ulreq("https://registry.docker.io/v2/library/"+image_name+"/manifests/"+tag
+    dreg_req = ulreq("https://registry.docker.io/v2/library/"+image_name+"/manifests/"+tag,
                     headers = {
-                        "Content-Type": "application/vnd.docker.distribution.manifest.v2+json"
+                        "Content-Type": "application/vnd.docker.distribution.manifest.v2+json",
                         "Authorization": "Bearer " + auth_token
                     })
     dregf = urlopen(dreg_req)
