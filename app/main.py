@@ -30,7 +30,7 @@ def recv_token(sk):
 def get_docker_auth_token(image,tag):
     dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
     dauthf = urlopen(dauth_req)
-    auth_body = dauthf.read()
+    auth_body = dauthf.read().decode()
     dauthf.close()
     auth_resp = json.loads(auth_body)
     return auth_resp["token"]
@@ -49,8 +49,7 @@ def load_image(image_name):
                         "Authorization": "Bearer " + auth_token
                     })
     dregf = urlopen(dreg_req)
-    dreg_resp = dregf.read()
-    print("JSON_RESP",type(dreg_resp))
+    dreg_resp = dregf.read().decode()
     print(json.dumps(dreg_resp,indent=4))
     dregf.close()
     #dreg_sk = initsocktohost(("registry.hub.docker.com",443))
