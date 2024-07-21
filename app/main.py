@@ -51,7 +51,7 @@ def load_image(image_name):
     dregf = urlopen(dreg_req)
     dreg_resp = dregf.read().decode()
     dreg_body = json.loads(dreg_resp)
-    print(dreg_body) #json.dumps(dreg_resp,indent=4))
+    print(json.dumps(dreg_body,indent=4))
     dregf.close()
     #dreg_sk = initsocktohost(("registry.hub.docker.com",443))
     #dreg.send("GET /v2/ HTTP/1.1".encode())
