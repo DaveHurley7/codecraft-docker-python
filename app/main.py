@@ -33,7 +33,7 @@ def get_docker_auth_token(image,tag):
     auth_body = dauthf.read()
     dauthf.close()
     auth_resp = json.loads(auth_body)
-    reutrn auth_resp["token"]
+    return auth_resp["token"]
 
 def load_image(image_name):
     print("IMAGE:",image_name)
