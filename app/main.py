@@ -2,30 +2,9 @@ import subprocess
 import sys
 import os
 from urllib.request import Request as ulreq, urlopen
-import socket as skt, ssl
-import http.client as hc
 import json
+import tarfile
 
-sslctx = ssl.create_default_context()
-def initsocktohost(host,port):
-    print("Attempting to connect:",host,port)
-    sk = skt.socket(skt.AF_INET,skt.SOCK_STREAM)
-    s_sk = sslctx.wrap_socket(sk,server_hostname=host)
-    s_sk.connect((host,port))
-    print("Connected")
-    return s_sk
-    
-def recv_token(sk):
-    resp = sk.recv(1024).decode()
-    req_h, body = resp.split("\r\n\r\n")
-    json_res = None
-    while True:
-        try:
-            json_res = json.loads(body)
-            break
-        except json.decoder.JSONDecodeError:
-            body += sk.recv(1024).decode()
-    return json_res["token"]
     
 def get_docker_auth_token(image,tag):
     dauth_req = ulreq("https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/"+image+":pull")
@@ -62,7 +41,6 @@ def load_image(image_name):
         dbinf = urlopen(dbin_req)
         imgrawf.write(dbinf.read())
         imgrawf.close()
-    print(os.listdir())
 
 def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -77,6 +55,8 @@ def main():
     tmpdir = "_tempdir"
     if not os.path.isdir(tmpdir):
         os.mkdir(tmpdir)
+    imgtar = tarfile.open(image_name,"r:gz")
+    imgtar.extractall(tmpdir)
     os.chroot(tmpdir)
     os.unshare(os.CLONE_NEWPID)
     command = "/"+os.path.basename(command)
